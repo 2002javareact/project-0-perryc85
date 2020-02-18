@@ -1,3 +1,5 @@
+import { Role } from "./Role";
+
 export class User{
     
     userId: number; // primary key
@@ -8,4 +10,20 @@ export class User{
     email: string; // not null
     role: Role // not null
     
+    constructor(
+        userId: number,
+        username: string,
+        password: string,
+        firstName: string,
+        lastName: string,
+        email: string,
+        role: Role){
+            this.userId = userId;
+            this.username = username;
+            this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this. role = role
+    }
 }
