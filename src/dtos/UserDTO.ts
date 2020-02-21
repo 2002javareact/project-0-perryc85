@@ -1,14 +1,11 @@
-import { Role } from "./Role";
-
-export class User{
-    
+export class UserDTO{
     userId: number; // primary key
     username: string; // not null, unique
     password: string; // not null
     firstName: string; // not null
     lastName: string; // not null
     email: string; // not null
-    role: Role // not null
+    role: string // not null
     
     constructor(
         userId: number,
@@ -17,7 +14,7 @@ export class User{
         firstName: string,
         lastName: string,
         email: string,
-        role: Role){
+        role: string){
             this.userId = userId;
             this.username = username;
             this.password = password;
@@ -25,5 +22,4 @@ export class User{
             this.lastName = lastName;
             this.email = email;
             this.role = role
-    }
 }
