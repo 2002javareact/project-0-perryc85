@@ -1,11 +1,11 @@
 export class UserDTO{
-    userId: number; // primary key
-    username: string; // not null, unique
-    password: string; // not null
-    firstName: string; // not null
-    lastName: string; // not null
-    email: string; // not null
-    role: string // not null
+    userId: number; 
+    username: string; 
+    password: string; 
+    firstName: string; 
+    lastName: string; 
+    email: string; 
+    role: string 
     
     constructor(
         userId: number,
