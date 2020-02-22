@@ -1,7 +1,7 @@
 export class ReimbursementType{
 
-    typeId: number; // primary key
-    type: string // not null, unique
+    typeId: number;
+    type: string 
 
     constructor(
         typeId: number,
