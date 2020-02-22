@@ -22,4 +22,5 @@ export class UserDTO{
             this.lastName = lastName;
             this.email = email;
             this.role = role
+        }
 }
