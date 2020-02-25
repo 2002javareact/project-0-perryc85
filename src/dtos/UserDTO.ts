@@ -1,26 +1,29 @@
 export class UserDTO{
-    userId: number; 
+    userid: number; 
     username: string; 
     password: string; 
-    firstName: string; 
-    lastName: string; 
+    firstname: string; 
+    lastname: string; 
     email: string; 
-    role: string 
+    role: string; 
+    roleid: number;
     
     constructor(
-        userId: number,
+        userid: number,
         username: string,
         password: string,
-        firstName: string,
-        lastName: string,
+        firstname: string,
+        lastname: string,
         email: string,
-        role: string){
-            this.userId = userId;
+        role: string,
+        roleid: number){
+            this.userid = userid;
             this.username = username;
             this.password = password;
-            this.firstName = firstName;
-            this.lastName = lastName;
+            this.firstname = firstname;
+            this.lastname = lastname;
             this.email = email;
-            this.role = role
+            this.role = role;
+            this.roleid = roleid;
         }
 }

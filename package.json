@@ -25,6 +25,7 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
+    "@types/express-session": "^1.15.16",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "pg": "^7.18.2"
