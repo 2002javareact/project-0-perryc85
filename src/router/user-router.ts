@@ -28,7 +28,7 @@ userRouter.get('/:id', authFactory(['Admin', 'Finance_Manager']), authCheckId, a
     }
 })
 
-userRouter.patch('', authFactory(['Admin']), async (req,res) => {
+userRouter.patch('/', authFactory(['Admin']), async (req,res) => {
 
     let { userid, username, password, firstname, lastname, email, role, roleid }:{
             userid:number

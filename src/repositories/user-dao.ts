@@ -73,7 +73,7 @@ export async function daoUpdateOneUser(newUser:UserDTO):Promise<User> {
     let client:PoolClient
     try { 
         client = await connectionPool.connect()
-        // send a query and immeadiately get the role id matching the name on the dto
+
         let oldUser = await findUserById(newUser.userid)
 
         oldUser.username = newUser.username || oldUser.username
@@ -82,7 +82,6 @@ export async function daoUpdateOneUser(newUser:UserDTO):Promise<User> {
         oldUser.lastName = newUser.lastname || oldUser.lastName
         oldUser.email = newUser.email || oldUser.email
 
-        // send an insert that uses the id above and the user input
         await client.query('UPDATE project_0.user set username = $1, "password" = $2, firstname = $3, lastname = $4, email = $5, WHERE userid = $6'
         [oldUser.username, oldUser.password, oldUser.firstName, oldUser.lastName, oldUser.email, oldUser.userId ])
         return oldUser

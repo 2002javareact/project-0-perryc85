@@ -5,6 +5,8 @@ import { sessionMiddleware } from './middleware/session-middleware'
 import { loggingMiddleware } from './middleware/logging-middleware'
 import { findUserByUsernameAndPassword } from './services/user-service';
 import { reimbursementRouter } from './router/reimbursement-router'
+import { Reimbursement } from './models/Reimbursement'
+import { ReimbursementDTO } from './dtos/ReimbursementDTO'
 
 
 const app = express()
@@ -15,6 +17,7 @@ app.use(loggingMiddleware)
 app.use(sessionMiddleware)
 
 app.use('/user', userRouter)
+
 app.use('/reimbursement', reimbursementRouter)
 
 app.post('/login', async (req,res)=>{
@@ -32,6 +35,49 @@ app.post('/login', async (req,res)=>{
             res.status(e.status).send(e.message)
         }
     }
+})
+
+app.post('/reimbursement', async (req, res) => {
+ 
+    let{ 
+        reimbursementid,
+        author, 
+        amount, 
+        datesubmitted, 
+        dateresolved, 
+        description, 
+        resolver,
+        status, 
+        type  
+    }:{
+        reimbursementid:number,
+        author: number,
+        amount: number,
+        datesubmitted: number,
+        dateresolved: number,
+        description; string,
+        resolver: number,
+        status: number,
+        type: number
+    } = req.body
+
+    if(reimbursementid && author && amount && datesubmitted && dateresolved && description && resolver && status && type){
+        let newReimbursement = await new ReimbursementDTO(
+            reimbursementid,
+            author,
+            amount,
+            datesubmitted,
+            dateresolved,
+            resolver,
+            status,
+            type
+        )
+
+        res.status(201).json(newReimbursement);
+    }else{
+        res.status(400).send('Please include all user fields')
+    }
+
 })
 
 app.use('/', (req, res) => {
