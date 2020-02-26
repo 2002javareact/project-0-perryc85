@@ -10,3 +10,4 @@ reimbursementRouter.get('/', [authFactory(['Admin', 'Finance_Manager']), async (
     let reimbursement:Reimbursement[] = await findAllReimbursements();
     res.json(reimbursement)
 }])
+
