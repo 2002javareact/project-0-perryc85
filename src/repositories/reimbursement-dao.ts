@@ -52,7 +52,7 @@ export async function daoFindReimbursementByUser(id:number):Promise<Reimbursemen
     try {
         client = await connectionPool.connect()
         // a paramaterized query
-        let results = await client.query('SELECT * FROM project_0."user" U inner join project_0."role" R on U."role" = R.roleid  WHERE username = $1', [id])
+        let results = await client.query('SELECT * FROM project_0.reimbursement R inner join project_0."User" U on U.userid = U.userid  WHERE U.userid = $1', [id])
         if(results.rowCount === 0){
             throw new Error('User Not Found')
         }

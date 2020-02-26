@@ -81,9 +81,10 @@ export async function daoUpdateOneUser(newUser:UserDTO):Promise<User> {
         oldUser.firstName = newUser.firstname || oldUser.firstName
         oldUser.lastName = newUser.lastname || oldUser.lastName
         oldUser.email = newUser.email || oldUser.email
+        oldUser.role.roleId = newUser.roleid || oldUser.role.roleId
 
-        await client.query('UPDATE project_0.user set username = $1, "password" = $2, firstname = $3, lastname = $4, email = $5, WHERE userid = $6'
-        [oldUser.username, oldUser.password, oldUser.firstName, oldUser.lastName, oldUser.email, oldUser.userId ])
+        await client.query('update project_0.user set username = $1, "password" = $2, firstname = $3, lastname = $4, email = $5, "role" = $6 WHERE userid = $7',
+        [oldUser.username, oldUser.password, oldUser.firstName, oldUser.lastName, oldUser.email, oldUser.role.roleId, oldUser.userId ])
         return oldUser
     } catch(e){
         throw new InternalServerError()
