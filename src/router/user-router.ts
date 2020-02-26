@@ -1,7 +1,8 @@
 import * as express from 'express'
 import { authFactory, authCheckId } from '../middleware/auth-middleware';
 import { User } from '../models/User';
-import { findAllUsers, findUserById } from '../services/user-service';
+import { findAllUsers, findUserById, updateOneUser } from '../services/user-service';
+import { UserDTO } from '../dtos/UserDTO';
 
 export const userRouter = express.Router()
 
@@ -25,4 +26,31 @@ userRouter.get('/:id', authFactory(['Admin', 'Finance_Manager']), authCheckId, a
       
         
     }
+})
+
+userRouter.patch('', authFactory(['Admin']), async (req,res) => {
+
+    let { userid, username, password, firstname, lastname, email, role, roleid }:{
+            userid:number
+            username:string,
+            password:string,
+            firstname:string,
+            lastname:string,
+            email:string,
+            role:string,
+            roleid:number
+        } = req.body
+
+        let updatedUser = await updateOneUser(new UserDTO(
+            userid,
+            username,
+            password,
+            firstname,
+            lastname,
+            email,
+            role,
+            roleid
+        ))
+
+        res.json(updatedUser);
 })
