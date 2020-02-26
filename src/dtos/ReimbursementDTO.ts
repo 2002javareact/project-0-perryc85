@@ -1,5 +1,5 @@
-export class ReimbersementDTO{
-    reimbersementid: number;
+export class ReimbursementDTO{
+    reimbursementid: number;
     author: number;
     amount: number;
     datesubmitted: number;
@@ -10,7 +10,7 @@ export class ReimbersementDTO{
     type: number
 
     constructor(
-        reimbersementid: number,
+        reimbursementid: number,
         author: number,
         amount: number,
         datesubmitted: number,
@@ -18,7 +18,7 @@ export class ReimbersementDTO{
         resolver: number,
         status: number,
         type: number){
-            this.reimbersementid = reimbersementid;
+            this.reimbursementid = reimbursementid;
             this.author = author;
             this.amount = amount;
             this.datesubmitted = datesubmitted;

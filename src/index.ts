@@ -4,6 +4,7 @@ import { userRouter } from './router/user-router'
 import { sessionMiddleware } from './middleware/session-middleware'
 import { loggingMiddleware } from './middleware/logging-middleware'
 import { findUserByUsernameAndPassword } from './services/user-service';
+import { reimbursementRouter } from './router/reimbursement-router'
 
 
 const app = express()
@@ -14,6 +15,7 @@ app.use(loggingMiddleware)
 app.use(sessionMiddleware)
 
 app.use('/user', userRouter)
+app.use('/reimbursement', reimbursementRouter)
 
 app.post('/login', async (req,res)=>{
     
