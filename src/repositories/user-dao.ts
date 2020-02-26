@@ -83,7 +83,7 @@ export async function daoUpdateOneUser(newUser:UserDTO):Promise<User> {
         oldUser.email = newUser.email || oldUser.email
 
         // send an insert that uses the id above and the user input
-        await client.query('UPDATE project_0.user set username = $1, "password" = $2, firstname = $3, lastname = $4, email = $5, userid = $6'
+        await client.query('UPDATE project_0.user set username = $1, "password" = $2, firstname = $3, lastname = $4, email = $5, WHERE userid = $6'
         [oldUser.username, oldUser.password, oldUser.firstName, oldUser.lastName, oldUser.email, oldUser.userId ])
         return oldUser
     } catch(e){
