@@ -24,16 +24,16 @@ export async function daoFindAllReimbursements():Promise<Reimbursement[]>{
 
 }
 
-export async function daoFindReimbursementByStatus(id:number):Promise<Reimbursement>{
+export async function daoFindReimbursementByStatus(id:number):Promise<Reimbursement[]>{ 
     let client:PoolClient
     try{
         client = await connectionPool.connect()
-        let result = await client.query('SELECT * FROM project_0.reimbursement_status RS inner join project_0.reimbursement R on RS.statusid = $1 ORDER BY R.datesubmitted ASC', [id])
+        let result = await client.query('SELECT * FROM project_0.reimbursement WHERE status = $1 ORDER BY datesubmitted DESC', [id])
 
         if(result.rowCount === 0){
             throw new Error('User Not Found')
         }
-        return reimbursementDTOToReimbursementConverter(result.rows[0])
+        return result.rows.map(reimbursementDTOToReimbursementConverter)
 
     }catch(e){
         // id DNE
@@ -47,16 +47,16 @@ export async function daoFindReimbursementByStatus(id:number):Promise<Reimbursem
     }
 }
 
-export async function daoFindReimbursementByUser(id:number):Promise<Reimbursement>{
+export async function daoFindReimbursementByUser(id:number):Promise<Reimbursement[]>{
     let client:PoolClient// our potential connection to db
     try {
         client = await connectionPool.connect()
         // a paramaterized query
-        let results = await client.query('SELECT * FROM project_0.reimbursement R inner join project_0."User" U on U.userid = U.userid  WHERE U.userid = $1', [id])
+        let results = await client.query('SELECT * FROM project_0.reimbursement WHERE author = $1 ORDER BY datesubmitted DESC', [id])
         if(results.rowCount === 0){
             throw new Error('User Not Found')
         }
-        return reimbursementDTOToReimbursementConverter(results.rows[0])
+        return results.rows.map(reimbursementDTOToReimbursementConverter)
     } catch(e){
         console.log(e);
         if(e.message === 'User Not Found'){
