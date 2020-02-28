@@ -2,6 +2,7 @@ import * as express from 'express'
 import { authFactory, authCheckId } from '../middleware/auth-middleware';
 import { Reimbursement } from '../models/Reimbursement';
 import { findAllReimbursements, findReimbursementByStatus, findReimbursementByUser } from '../services/reimbursement-service';
+import { ReimbursementDTO } from '../dtos/ReimbursementDTO';
 
 export const reimbursementRouter = express.Router()
 
@@ -26,7 +27,7 @@ reimbursementRouter.get('/status/:id', authFactory(['Admin', 'Finance_Manager'])
     }
 })
 
-reimbursementRouter.get('/author/userId/:userId', authFactory(['Admin', 'Finance_Manager']), async (req, res) => {
+reimbursementRouter.get('/author/userId/:id', authFactory(['Admin', 'Finance_Manager']), async (req, res) => {
 
     const id = +req.params.id
     if(isNaN(id)){
@@ -39,6 +40,50 @@ reimbursementRouter.get('/author/userId/:userId', authFactory(['Admin', 'Finance
             res.status(e.status).send(e.message)
         }
     
+    }
+
+})
+
+reimbursementRouter.post('/', async (req, res) => {
+ 
+    let{ 
+        reimbursementid,
+        author, 
+        amount, 
+        datesubmitted, 
+        dateresolved, 
+        description, 
+        resolver,
+        status, 
+        type  
+    }:{
+        reimbursementid:number,
+        author: number,
+        amount: number,
+        datesubmitted: number,
+        dateresolved: number,
+        description: string,
+        resolver: number,
+        status: number,
+        type: number
+    } = req.body
+
+    if(reimbursementid && author && amount && datesubmitted && dateresolved && description && resolver && status && type){
+        let newReimbursement = await new ReimbursementDTO(
+            reimbursementid,
+            author,
+            amount,
+            datesubmitted,
+            dateresolved,
+            description,
+            resolver,
+            status,
+            type
+        )
+
+        res.status(201).json(newReimbursement);
+    }else{
+        res.status(400).send('Please include all user fields')
     }
 
 })
