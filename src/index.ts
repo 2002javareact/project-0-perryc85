@@ -37,49 +37,6 @@ app.post('/login', async (req,res)=>{
     }
 })
 
-app.post('/reimbursement', async (req, res) => {
- 
-    let{ 
-        reimbursementid,
-        author, 
-        amount, 
-        datesubmitted, 
-        dateresolved, 
-        description, 
-        resolver,
-        status, 
-        type  
-    }:{
-        reimbursementid:number,
-        author: number,
-        amount: number,
-        datesubmitted: number,
-        dateresolved: number,
-        description; string,
-        resolver: number,
-        status: number,
-        type: number
-    } = req.body
-
-    if(reimbursementid && author && amount && datesubmitted && dateresolved && description && resolver && status && type){
-        let newReimbursement = await new ReimbursementDTO(
-            reimbursementid,
-            author,
-            amount,
-            datesubmitted,
-            dateresolved,
-            resolver,
-            status,
-            type
-        )
-
-        res.status(201).json(newReimbursement);
-    }else{
-        res.status(400).send('Please include all user fields')
-    }
-
-})
-
 app.use('/', (req, res) => {
     res.send('<h1><center>Hello Batch!</center></h1><h3><center>Thanks for tuning in<br>to my Project Zero\'s API!</center></h3>')
 })
