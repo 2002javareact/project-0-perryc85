@@ -83,7 +83,7 @@ export async function daoCreateReimbursement(newSubmission:ReimbursementDTO):Pro
 
         return results.rows.map(reimbursementDTOToReimbursementConverter)
     } catch (e) {
-        
+        throw new InternalServerError()
     }finally{
         client && client.release()
     }
