@@ -4,10 +4,9 @@ import { Reimbursement } from "../models/Reimbursement";
 import { InternalServerError } from "../erros/InternalServerError";
 import { reimbursementDTOToReimbursementConverter } from "../util/reimbursement-dto-to-reimbursement-converter";
 import { UserNotFoundError } from "../erros/UserNotFoundError";
-import { User } from "../models/User";
 import { BadCredentialsError } from "../erros/BadCredentialsError";
 import { ReimbursementDTO } from "../dtos/ReimbursementDTO";
-import { findReimbursementByStatus } from "../services/reimbursement-service";
+
 
 // this function gets anf formats all users
 export async function daoFindAllReimbursements():Promise<Reimbursement[]>{
@@ -48,7 +47,7 @@ export async function daoFindReimbursementByStatus(id:number):Promise<Reimbursem
 }
 
 export async function daoFindReimbursementByUser(id:number):Promise<Reimbursement[]>{
-    let client:PoolClient// our potential connection to db
+    let client:PoolClient
     try {
         client = await connectionPool.connect()
         // a paramaterized query
@@ -65,6 +64,27 @@ export async function daoFindReimbursementByUser(id:number):Promise<Reimbursemen
             throw new InternalServerError()
         }
     } finally {
+        client && client.release()
+    }
+}
+
+export async function daoCreateReimbursement(newSubmission:ReimbursementDTO):Promise<Reimbursement[]>{
+    
+    let client:PoolClient
+    
+    try {
+        client = await connectionPool.connect()
+
+        let reimbursement_id = (await client.query('SELECT * FROM project_0.reimbursement WHERE reimbursementid = $1', [newSubmission.reimbursementid])).rows[0].reimbursementid
+
+        let results = await client.query('INSERT INTO project_0.reimbursement set author = $1, amount = $2,datesubmitted = $3, dateresolved = $4, description = $5, resolver = $6, status = $7, type = $8 RETURNING reimbursementid;', [newSubmission.author, newSubmission.amount, newSubmission.datesubmitted, newSubmission.dateresolved, newSubmission.description, newSubmission.resolver, newSubmission.status, newSubmission.type, reimbursement_id ])
+
+        newSubmission.reimbursementid = results.rows[0].reimbursementid
+
+        return results.rows.map(reimbursementDTOToReimbursementConverter)
+    } catch (e) {
+        
+    }finally{
         client && client.release()
     }
 }
