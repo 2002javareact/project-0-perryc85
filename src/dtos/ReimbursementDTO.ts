@@ -15,6 +15,7 @@ export class ReimbursementDTO{
         amount: number,
         datesubmitted: number,
         dateresolved: number,
+        description: string,
         resolver: number,
         status: number,
         type: number){
@@ -23,6 +24,7 @@ export class ReimbursementDTO{
             this.amount = amount;
             this.datesubmitted = datesubmitted;
             this.dateresolved = dateresolved;
+            this.description = description;
             this.resolver = resolver;
             this.status = status;
             this.type = type
