@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { authFactory, authCheckId } from '../middleware/auth-middleware';
 import { Reimbursement } from '../models/Reimbursement';
-import { findAllReimbursements, findReimbursementByStatus, findReimbursementByUser } from '../services/reimbursement-service';
+import { findAllReimbursements, findReimbursementByStatus, findReimbursementByUser, createReimbursement, updateReimbursement } from '../services/reimbursement-service';
 import { ReimbursementDTO } from '../dtos/ReimbursementDTO';
 
 export const reimbursementRouter = express.Router()
@@ -46,17 +46,7 @@ reimbursementRouter.get('/author/userId/:id', authFactory(['Admin', 'Finance_Man
 
 reimbursementRouter.post('/', async (req, res) => {
  
-    let{ 
-        reimbursementid,
-        author, 
-        amount, 
-        datesubmitted, 
-        dateresolved, 
-        description, 
-        resolver,
-        status, 
-        type  
-    }:{
+    let{reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type}:{
         reimbursementid:number,
         author: number,
         amount: number,
@@ -68,9 +58,9 @@ reimbursementRouter.post('/', async (req, res) => {
         type: number
     } = req.body
 
-    if(reimbursementid && author && amount && datesubmitted && dateresolved && description && resolver && status && type){
-        let newReimbursement = await new ReimbursementDTO(
-            reimbursementid,
+    if(author && amount && datesubmitted && dateresolved && description && resolver && status && type){
+        let newReimbursement = await createReimbursement(new ReimbursementDTO(
+            0,
             author,
             amount,
             datesubmitted,
@@ -79,11 +69,40 @@ reimbursementRouter.post('/', async (req, res) => {
             resolver,
             status,
             type
-        )
-
+        ))
         res.status(201).json(newReimbursement);
     }else{
         res.status(400).send('Please include all user fields')
     }
 
+})
+
+
+reimbursementRouter.patch('/', authFactory(['Admin', 'Finance_Manager']), async (req, res) => {
+ 
+    let{reimbursementid, author, amount, datesubmitted, dateresolved, description, resolver, status, type}:{
+        reimbursementid:number,
+        author: number,
+        amount: number,
+        datesubmitted: number,
+        dateresolved: number,
+        description: string,
+        resolver: number,
+        status: number,
+        type: number
+    } = req.body
+
+    let updatedReimbursement = await updateReimbursement(new ReimbursementDTO(
+        reimbursementid,
+        author,
+        amount,
+        datesubmitted,
+        dateresolved,
+        description,
+        resolver,
+        status,
+        type
+    ))
+
+    res.json(updatedReimbursement);
 })

@@ -1,5 +1,5 @@
 import { Reimbursement } from "../models/Reimbursement";
-import { daoFindAllReimbursements, daoFindReimbursementByStatus, daoFindReimbursementByUser, daoCreateReimbursement } from "../repositories/reimbursement-dao";
+import { daoFindAllReimbursements, daoFindReimbursementByStatus, daoFindReimbursementByUser, daoCreateReimbursement, daoUpdateReimbursement } from "../repositories/reimbursement-dao";
 import { ReimbursementDTO } from "../dtos/ReimbursementDTO";
 
 // dao Find All Users
@@ -15,6 +15,10 @@ export async function findAllReimbursements():Promise<Reimbursement[]>{
     return await daoFindReimbursementByUser(id)
  }
 
- export async function createReimbursement(newSubmission:ReimbursementDTO):Promise<Reimbursement[]>{
+ export async function createReimbursement(newSubmission:ReimbursementDTO):Promise<Reimbursement>{
    return await daoCreateReimbursement(newSubmission)
+ }
+
+ export async function updateReimbursement(updatedSubmission:ReimbursementDTO):Promise<Reimbursement[]>{
+   return await daoUpdateReimbursement(updatedSubmission)
  }

@@ -28,5 +28,5 @@ export class ReimbursementDTO{
             this.resolver = resolver;
             this.status = status;
             this.type = type
-    }
+        }
 }
