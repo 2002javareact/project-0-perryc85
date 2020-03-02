@@ -19,6 +19,6 @@ export async function findAllReimbursements():Promise<Reimbursement[]>{
    return await daoCreateReimbursement(newSubmission)
  }
 
- export async function updateReimbursement(updatedSubmission:ReimbursementDTO):Promise<Reimbursement[]>{
+ export async function updateReimbursement(updatedSubmission:ReimbursementDTO):Promise<Reimbursement>{
    return await daoUpdateReimbursement(updatedSubmission)
  }

@@ -110,15 +110,15 @@ export async function daoCreateReimbursement(newSubmission:ReimbursementDTO):Pro
     }
 }
 
-export async function daoUpdateReimbursement(updatedSubmission:ReimbursementDTO):Promise<Reimbursement[]> {
+export async function daoUpdateReimbursement(updatedSubmission:ReimbursementDTO):Promise<Reimbursement> {
     let client:PoolClient
     try { 
         client = await connectionPool.connect()
 
-        let results = await client.query('UPDATE project_0.reimbursement set author = $1, amount = $2, datesubmitted = $3, dateresolved = $4, description = $5, resolver = $6, status = $7, "type" = $8 WHERE reimbursementid = $9',
+        let results = await client.query('update project_0.reimbursement set author = $1, amount = $2, datesubmitted = $3, dateresolved = $4, description = $5, resolver = $6, status = $7, "type" = $8 WHERE reimbursementid = $9',
         [updatedSubmission.author, updatedSubmission.amount, updatedSubmission.datesubmitted, updatedSubmission.dateresolved, updatedSubmission.description, updatedSubmission.resolver, updatedSubmission.status, updatedSubmission.type, updatedSubmission.reimbursementid ])
 
-        return results.rows.map(reimbursementDTOToReimbursementConverter)
+        return reimbursementDTOToReimbursementConverter(updatedSubmission)
     } catch(e){
         console.log(e)
         throw new InternalServerError()

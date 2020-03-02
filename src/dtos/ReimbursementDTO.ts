@@ -7,7 +7,7 @@ export class ReimbursementDTO{
     description: string;
     resolver: number;
     status: number;
-    type: number
+    type: number;
 
     constructor(
         reimbursementid: number,
