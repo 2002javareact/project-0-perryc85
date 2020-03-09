@@ -7,6 +7,7 @@ import { findUserByUsernameAndPassword } from './services/user-service';
 import { reimbursementRouter } from './router/reimbursement-router'
 import { Reimbursement } from './models/Reimbursement'
 import { ReimbursementDTO } from './dtos/ReimbursementDTO'
+import { corsFilter } from './middleware/cors-filter'
 
 
 const app = express()
@@ -15,6 +16,10 @@ app.use('/', bodyparser.json())
 
 app.use(loggingMiddleware)
 app.use(sessionMiddleware)
+
+app.use((req,res,next)=>{console.log('connected'); next()})
+app.use(corsFilter)
+app.use((req,res,next)=>{console.log('cors filter'); next()})
 
 app.use('/user', userRouter)
 
